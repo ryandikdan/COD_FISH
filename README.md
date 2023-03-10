@@ -5,4 +5,4 @@ This repository contains the code for running COD_FISH, the smFISH probe designe
 Windows:
 https://drive.google.com/file/d/1CvKAONu8_Iuk5ckwPcCDkYNuBgTmofCZ/view?usp=share_link
 Mac:
-Currently unavailable
+Currently unavailable, can be run with python so long as BLAST is installed and the system has been restarted
