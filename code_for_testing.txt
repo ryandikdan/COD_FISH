@@ -1,0 +1,67 @@
+# For raj lab, this is how probes were generated
+# cd into the test_target folder then run (wanted 50 oligos):
+
+mkdir raj_output
+
+mkdir raj_output/unformat
+mkdir raj_output/formatted
+
+
+for i in *fa; do python ../Raj_lab/ProbeDesign/DesignServer/find_probes_cl.py $i probe 50 > raj_output/unformat/${i}_raj.fa;tail -100 raj_output/unfor
+mat/${i}_raj.fa > raj_output/formatted/${i}_raj.fa;done
+
+# Had to modify the code a bit to remove other print statements
+
+###############################
+# Then for oligominer
+
+mkdir oligominer_output/
+
+mkdir oligominer_output/blocked
+
+# Using 0% formamide and 1M Na+, probe size 20 and minimum Tm 40 with max Tm 80
+
+for i in *fa; do python ../OligoMiner/blockParse.py -l 20 -L 20 -t 40 -T 80 -X AAAAA,TTTTT,CCCC,GGGG -F 0 -s 1000 -f $i;done
+
+mv *fastq oligominer_output/blocked
+
+cd blocked
+
+# can't use this since the score min isn't low enough
+# for i in *fastq; do bowtie2 -x /mnt/g/Research/Genome/hg38/hg38.bt2_index -U $i --no-hd -t -k 100 --very-sensitive-local -S ${i}.sam;done
+
+for i in *fastq; do bowtie2 -x /mnt/g/Research/Genome/hg38/hg38.bt2_index -U $i --no-hd -t -k 2 --local -D 20 -R 3 -N 1 -L 20 -i C,4 --score-min G,1,4 -S ${i}.sam;done
+
+mkdir ../aligned
+mv *sam ../aligned
+cd ../aligned
+
+# cleaned sam output to bed
+for i in *sam; do python ../../../OligoMiner/outputClean.py -T 42 -f ${i};done
+
+mkdir ../cleaned
+mv *bed ../cleaned/
+cd ../cleaned
+
+# making the jellyfish mer-file
+# took a long time, file is huge
+jellyfish count -m 18 -s 3G --bf-size 50G -t 24 /mnt/g/Research/Genome/hg38/hg38.fa
+
+# Then checked for n-mers (18)
+for i in *bed; do python ../../../OligoMiner/kmerFilter.py -f ${i} -m 18 -j ../mer_counts.jf -k 4; done
+# took 1 minute each!
+
+mkdir ../18_4_nmer_clean
+mv *18_4.bed ../18_4_nmer_clean/
+cd ../18_4_nmer_clean/
+
+# make reverse complement which is the actual probe
+
+for i in *bed; do python ../../../OligoMiner/probeRC.py -f $i;done
+mkdir ../rc_probes
+mv *RC.bed ../rc_probes/
+
+
+
+
+
