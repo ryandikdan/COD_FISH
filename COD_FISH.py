@@ -30,9 +30,6 @@ def main(transcript_targets = {}, species = None, transcriptome_dict = {}, gene_
     # Changes working directory to where the script is so everything lines up well and the directory creation doesn't cause problems
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-    # Check if blast is installed and if not, install it
-    utils.check_blast_download_install()
-
     ##############################################################################
     #  Command Line Interface (CLI) Input                                        #
     ##############################################################################
