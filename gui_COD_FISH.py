@@ -22,6 +22,7 @@ import utils_COD_FISH as utils
 import COD_FISH
 import subprocess
 import os
+import platform
 
 
 # This awesome script was found online which makes the finding of species via autocomplete possible.
@@ -348,7 +349,8 @@ def main():
             # If windows, opens windows explorer in the output folder
             if os.name =='nt':
                 subprocess.run(['explorer', os.getcwd()+'\\output\\'])
-            # !!! Need to open output for unix systems! 
+            elif platform.system() == 'Darwin':
+                subprocess.call(["open", "-R", os.getcwd()+'/output/'])
         else:
             messagebox.showerror('Something went wrong','Please check the input parameters and if the issue can\'t be resolved then please raise it in the Github.')
         # !!! Kills window to avoid error of adding already made targets to new queries
