@@ -484,7 +484,6 @@ def multithread_offtarget_tm(alignment_data, target_ensembl_id, rRNA_list):
 ##############################################################################
 
 def check_blast_download_install():
-    import platform
     # This checks if blastn in a $PATH variable, which pretty much checks if it's installed and usable.
     if not shutil.which('blastn'):
         print('Blast isn\'t installed, to download and install it. Please follow the installation instructions.')
@@ -508,6 +507,7 @@ def check_blast_download_install():
 
             # Copy the uninstaller and run the installer
             #subprocess.call(['cp','/Volumes/blast_installer/uninstall_ncbi_blast.zip','blast_uninstaller.zip'])
+            # Uninstaller doesn't work on more recent versions of Mac I think.
             print('Please follow the BLAST installer instructions. Installation of BLAST is required for COD-FISH to function.')
             subprocess.call(['open','/Volumes/blast_installer/ncbi-blast-2.13.0+.pkg'])
 
@@ -515,7 +515,6 @@ def check_blast_download_install():
             
             # Remove the dmg file
             subprocess.call(['rm','ncbi-blast-2.13.0+.dmg'])
-            
                 
     
 
