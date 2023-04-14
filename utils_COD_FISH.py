@@ -19,6 +19,7 @@ import primer3
 import requests
 import math
 import os, sys
+import platform
 import multiprocessing as mp
 import gzip
 import shutil
@@ -519,6 +520,7 @@ def check_blast_download_install():
     
 
 def make_blast_db(fasta_file):
+    check_blast_download_install()
     print("\nBlastn will now generate the database with which to align the candidate probe sequences.")
     
     # If running windows will tell it not to open another terminal, otherwise don't
@@ -530,7 +532,8 @@ def make_blast_db(fasta_file):
                                 '-out','blast_db'],
                                 capture_output=True, 
                                 creationflags = subprocess.CREATE_NO_WINDOW)
-    else:
+    # Mac
+    if platform.system() == 'Darwin':
         blast_db_run = subprocess.run(['makeblastdb',
                                 '-in', fasta_file,
                                 '-dbtype', 'nucl',
@@ -544,6 +547,7 @@ def make_blast_db(fasta_file):
     return(blast_db_run)  
 
 def align_blast(probe_fasta_filename, transcriptome_db, probe_len):
+    check_blast_download_install()
     print('Aligning probe candidates to transcriptome using blast\n')
     # To understand how the scoring and alignment works look at this site: https://www.ncbi.nlm.nih.gov/books/NBK279684/table/appendices.T.blastn_application_options/
     # In summary, for the raw score 'score' in task blastn-short (which we're doing) the reward is 1 for each match, and -3 for each mismatch. 
@@ -571,7 +575,7 @@ def align_blast(probe_fasta_filename, transcriptome_db, probe_len):
                                 '-outfmt','6 qacc sacc qseq sseq score'],
                                 capture_output=True, 
                                 creationflags = subprocess.CREATE_NO_WINDOW)
-    else:
+    if platform.system() == 'Darwin':
         blast_run = subprocess.run(['blastn',
                                 '-task', task,
                                 '-db', transcriptome_db,
