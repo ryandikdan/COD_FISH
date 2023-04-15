@@ -351,7 +351,7 @@ def create_and_filter_probe_possibilites(target_transcript_seq, probe_len, Tm, T
     for candidate_probe in candidate_probe_list:
         probe_name = candidate_probe[0]
         probe_seq = candidate_probe[1]
-        probe_tm = 273 + primer3.calcTm(probe_seq)
+        probe_tm = 273 + primer3.bindings.calc_tm(probe_seq)
         if float(probe_tm) > Tm:
             Tm_filtered_probes_list.append((probe_name, probe_seq, probe_tm))
         else:
@@ -453,7 +453,7 @@ def compute_offtarget_tm_for_mp(aln):
     probe_seq = aln[2]
     aligned_transcript_seq_fragment = reverse_complement(aln[3])
 
-    aln_tm = (primer3.calcHeterodimer(probe_seq, aligned_transcript_seq_fragment).tm + 273)/(primer3.calcTm(probe_seq) + 273) + 1
+    aln_tm = (primer3.bindings.calc_heterodimer(probe_seq, aligned_transcript_seq_fragment).tm + 273)/(primer3.bindings.calc_tm(probe_seq) + 273) + 1
     # Punished 1 per alignment as well as 0-1 based on the alignment 
     # (so for a perfect off target alignment penalty of 2 and for a very weak off target alignment penalty of 1)
     
