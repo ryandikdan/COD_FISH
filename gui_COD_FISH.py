@@ -529,5 +529,5 @@ if __name__ == "__main__":
     mp.freeze_support()
     # Specific multithreading fix for Macs
     if platform.system() == "Darwin":
-        multiprocessing.set_start_method('spawn')
+        mp.set_start_method('spawn')
     main()
