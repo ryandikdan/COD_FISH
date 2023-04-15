@@ -527,4 +527,7 @@ if __name__ == "__main__":
     # And this prevents the pyinstaller .exe file from opening the window many times
     # due to incompatibility with multiprocessing
     mp.freeze_support()
+    # Specific multithreading fix for Macs
+    if platform.system() == "Darwin":
+        multiprocessing.set_start_method('spawn')
     main()
