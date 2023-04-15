@@ -383,7 +383,7 @@ def create_and_filter_probe_possibilites(target_transcript_seq, probe_len, Tm, T
         probe_name = candidate_probe[0]
         probe_seq = candidate_probe[1]
         probe_tm = candidate_probe[2]
-        probe_hairpin_tm = primer3.calcHairpinTm(probe_seq) + 273
+        probe_hairpin_tm = primer3.bindings.calc_hairpin(probe_seq).tm + 273
         if float(probe_hairpin_tm) < Tm_hairpin:
             Tm_rep_hairpin_filtered_probes.append((probe_name,probe_seq,probe_tm,probe_hairpin_tm))
             probe_seq_dict[probe_name] = probe_seq
@@ -659,7 +659,7 @@ def select_nonoverlapping_probes(ordered_offtarget_scores_tuple_list, probe_seq_
         # Test for probe heterodimer binding
         heterodimer_tms = []
         for probe_tuple2 in final_probe_set:
-            heterodimer_tms.append(primer3.calcHeterodimer(probe_seq,probe_tuple2[2]).tm)
+            heterodimer_tms.append(primer3.bindings.calc_heterodimer(probe_seq,probe_tuple2[2]).tm)
         
         for tm in heterodimer_tms:
             if tm > min_tm:
