@@ -511,6 +511,7 @@ def check_blast_download_install():
     # This checks if blastn in a $PATH variable, which pretty much checks if it's installed and usable.
     if not shutil.which('blastn'):
         print('Blast isn\'t installed, to download and install it. Please follow the installation instructions.')
+        print('This program or the computer might need to be restarted for blast to function properly after installation.')
         
         # If run on windows, will download and install the windows version of blast
         if os.name == 'nt':
