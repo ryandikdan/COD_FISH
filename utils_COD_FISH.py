@@ -66,6 +66,17 @@ def gunzip(gz_file):
 ##############################################################################
 
 def make_config_file(num_probes = 50, probe_len = 20, probe_dist = 2, min_tm = 40, hairpin_max_tm = 57, offtarget_calc_method = "Tm", probe_selection_method = "Greedy", filter_repeats = True):
+    # Get current directory
+    # This loop checks if it's run through pyinstaller and picks the appropriate path
+    if getattr(sys, 'frozen', False):
+        # If the application is run as a bundle, the PyInstaller bootloader
+        # extends the sys module by a flag frozen=True and sets the app 
+        # path into variable _MEIPASS'.
+        application_path = sys._MEIPASS
+    else:
+        application_path = os.path.dirname(os.path.abspath(__file__))
+    # Changes workign directory to the newly made species directory
+    os.chdir(application_path)
     config_file = open("./config.py", "w")
     config_file.write("# This is the configuration file which defines the various parameters for making probes\n\n")
 
@@ -85,14 +96,26 @@ def make_config_file(num_probes = 50, probe_len = 20, probe_dist = 2, min_tm = 4
     config_file.close()
 
 def make_and_check_species_folder(species):
+    # Get current directory
+    # This loop checks if it's run through pyinstaller and picks the appropriate path
+    if getattr(sys, 'frozen', False):
+        # If the application is run as a bundle, the PyInstaller bootloader
+        # extends the sys module by a flag frozen=True and sets the app 
+        # path into variable _MEIPASS'.
+        application_path = sys._MEIPASS
+    else:
+        application_path = os.path.dirname(os.path.abspath(__file__))
+    # Changes workign directory to the correct one
+    os.chdir(application_path)
+
     # Making the directory for the transcriptome files
     species_dir = "species." + species + "/"
-    if not os.path.exists(species_dir):
+    if not os.path.exists(application_path+'/'+species_dir):
         print('Making the species specific directory for', species, '\n')
-        os.mkdir(species_dir)
+        os.mkdir(application_path+'/'+species_dir)
     else:
         print('Species specific directory for', species, 'already made\n')
-    sys.path.append(os.getcwd()+'/'+species_dir)
+    sys.path.append(application_path+'/'+species_dir)
 
     # Changes workign directory to the newly made species directory
     os.chdir(species_dir)
