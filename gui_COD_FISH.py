@@ -350,7 +350,7 @@ def main():
             if os.name =='nt':
                 subprocess.run(['explorer', os.getcwd()+'\\output\\'])
             elif platform.system() == 'Darwin':
-                subprocess.call(["open", "-R", os.getcwd()+'/output/'])
+                subprocess.call(["open", os.getcwd()+'/output'])
         else:
             messagebox.showerror('Something went wrong','Please check the input parameters and if the issue can\'t be resolved then please raise it in the Github.')
         # !!! Kills window to avoid error of adding already made targets to new queries
