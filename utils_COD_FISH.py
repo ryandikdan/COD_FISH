@@ -23,6 +23,7 @@ import platform
 import multiprocessing as mp
 import gzip
 import shutil
+import psutil
 import ensembl_rest
 from tqdm import tqdm
 import urllib.request   # for ftp downloads
@@ -510,9 +511,27 @@ def check_blast_download_install():
             # Uninstaller doesn't work on more recent versions of Mac I think.
             print('Please follow the BLAST installer instructions. Installation of BLAST is required for COD-FISH to function.')
             subprocess.call(['open','/Volumes/blast_installer/ncbi-blast-2.13.0+.pkg'])
-
-            subprocess.call(['hdiutil', 'detach', '/Volumes/blast_installer'])
             
+            # To wait for it to complete we will wait based on its name with this function
+            def wait_for_process_by_name(process_name):
+                """
+                Wait for a process with the given name to finish.
+                """
+                while True:
+                    for proc in psutil.process_iter(['pid', 'name']):
+                        if proc.name() == process_name:
+                            # The process is still running, sleep for a short time and check again
+                            time.sleep(0.1)
+                            break
+                    else:
+                        # The process has finished, break out of the loop and continue with the rest of the script
+                        break
+                        
+            wait_for_process_by_name("Installer")
+            
+            # If the user didn't select removing the volume and dmg, these lines will do that. The errors they
+            # throw if the user did select to remove them won't cause any issues
+            subprocess.call(['hdiutil', 'detach', '/Volumes/blast_installer'])
             # Remove the dmg file
             subprocess.call(['rm','ncbi-blast-2.13.0+.dmg'])
                 
