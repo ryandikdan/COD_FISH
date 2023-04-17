@@ -13,5 +13,5 @@ The zip files are located under releases at the following link: https://github.c
 - [ ] Make dynamic programming probe set selection
 - [ ] Add more selection criteria (RBP, folding, etc)
 - [ ] Rewrite how the program moves around probe sequences and scores (make a class)
-- [ ] Upload cute logo
+- [x] Upload cute logo
 
