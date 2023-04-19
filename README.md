@@ -6,6 +6,7 @@ This repository contains the code for running COD_FISH, the smFISH probe designe
 # Next steps
 
 - [ ] Troubleshoot apps and problems across windows and macintosh
+- [ ] Make work on M1 and x86 macs
 - [ ] Shrink the size of the releases (pyinstaller optimization)
 - [ ] Make dynamic programming probe set selection
 - [ ] Add more selection criteria (RBP, folding, etc)
