@@ -674,6 +674,11 @@ def select_nonoverlapping_probes(ordered_offtarget_scores_tuple_list, probe_seq_
         if len(final_probe_set) == probe_num:
             final_probe_set.sort(key=sort_by_score)
             return(final_probe_set)
+            
+    # If couldn't find enough probes
+    print("Couldn't find the specified number of probes:", str(probe_num), ". The program will output the number of probes that it can generate. \
+          The transcript may be too small, or the advanced filtering conditions may be too strict. You might be able to decreasing how strict filtering is to get more.")
+    return(final_probe_set)
 
 
 ##############################################################################
