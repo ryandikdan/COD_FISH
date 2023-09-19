@@ -23,7 +23,11 @@ import COD_FISH
 import subprocess
 import os
 import platform
-
+from ctypes import windll
+# This tries to see if the program is being run on windows and
+# if so changes a setting which improves the resolution of the GUI
+        
+windll.shcore.SetProcessDpiAwareness(1)
 
 # This awesome script was found online which makes the finding of species via autocomplete possible.
 # All credit to these wonderful people for their fantastic code!:  
@@ -510,13 +514,6 @@ def main():
     advanced_button.grid(column=0, row=8, sticky='se', padx=5, pady=5)
     # makes it so that hitting 'Enter' triggers the submit button.
     advanced_button.bind('<Return>', alter_config)
-
-
-    # This tries to see if the program is being run on windows and
-    # if so changes a setting which improves the resolution of the GUI
-    if os.name == 'nt':
-        from ctypes import windll
-        windll.shcore.SetProcessDpiAwareness(1)
 
     # This is what constantly updates the window.
     root.mainloop()
