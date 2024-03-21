@@ -298,11 +298,12 @@ def load_target_transcripts(input_fasta):
     
     target_dict = {}
     for line in open(input_fasta):
-        line = line.strip()
         if line[0] == ">":
+            line = line.strip()
             transcript_name = line[1:]
             target_dict[transcript_name] = ''
         else:
+            line = line.strip()
             target_dict[transcript_name] = target_dict[transcript_name] + line.upper()
     return(target_dict)
 
