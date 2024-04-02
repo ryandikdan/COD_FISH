@@ -10,7 +10,14 @@
 # Comtemplating allowing the terminal to be created so the process can be monitored.
 
 # For mac or linux have to use this command:
-# `pyinstaller -i codfish_icon.png --add-data='codfish_icon.png:.' gui_COD_FISH.py`
+# `pyinstaller -c -i codfish_icon.png --add-data='codfish_icon.png:.' gui_COD_FISH.py`
+# Run while in an environment, which may be causing these issues.
+# Run this script to override incorrectly imported packages.
+# `rm -r /Users/ryan/Downloads/COD_FISH-main/dist/gui_COD_FISH/_internal/primer3
+# cp -r /Users/ryan/miniconda3/envs/cod/lib/python3.11/site-packages/primer3 /Users/ryan/Downloads/COD_FISH-main/dist/gui_COD_FISH/_internal/
+# cp -r /Users/ryan/miniconda3/envs/cod/lib/python3.11/site-packages/ensembl_rest /Users/ryan/Downloads/COD_FISH-main/dist/gui_COD_FISH/_internal/
+# cp -r /Users/ryan/miniconda3/envs/cod/lib/python3.11/site-packages/psutil /Users/ryan/Downloads/COD_FISH-main/dist/gui_COD_FISH/_internal/
+# cp -r /Users/ryan/miniconda3/envs/cod/lib/python3.11/site-packages/tqdm /Users/ryan/Downloads/COD_FISH-main/dist/gui_COD_FISH/_internal/`
 
 # Trying to import in only the necessary parts of Tkinter so that pyinstaller executable is not too laggy
 
@@ -23,11 +30,14 @@ import COD_FISH
 import subprocess
 import os
 import platform
-from ctypes import windll
-# This tries to see if the program is being run on windows and
-# if so changes a setting which improves the resolution of the GUI
-        
-windll.shcore.SetProcessDpiAwareness(1)
+try:
+        from ctypes import windll
+	# This tries to see if the program is being run on windows and
+	# if so changes a setting which improves the resolution of the GUI
+
+	windll.shcore.SetProcessDpiAwareness(1)
+except:
+	pass
 
 # This awesome script was found online which makes the finding of species via autocomplete possible.
 # All credit to these wonderful people for their fantastic code!:  
