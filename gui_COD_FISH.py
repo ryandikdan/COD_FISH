@@ -30,14 +30,11 @@ import COD_FISH
 import subprocess
 import os
 import platform
-try:
-        from ctypes import windll
-	# This tries to see if the program is being run on windows and
-	# if so changes a setting which improves the resolution of the GUI
-
-	windll.shcore.SetProcessDpiAwareness(1)
-except:
-	pass
+if platform.system() == "Windows":
+    from ctypes import windll
+    # This tries to see if the program is being run on windows and
+    # if so changes a setting which improves the resolution of the GUI
+    windll.shcore.SetProcessDpiAwareness(1)
 
 # This awesome script was found online which makes the finding of species via autocomplete possible.
 # All credit to these wonderful people for their fantastic code!:  
