@@ -1,0 +1,4 @@
+psutil==7.0.0
+tqdm==4.67.1
+ensembl-rest==0.3.4
+primer3-py==2.0.3
